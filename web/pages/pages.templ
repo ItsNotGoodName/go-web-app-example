@@ -1,0 +1,33 @@
+package pages
+
+import "github.com/ItsNotGoodName/go-web-app-example/web/ui"
+import "github.com/ItsNotGoodName/go-web-app-example/web/lib"
+import "github.com/ItsNotGoodName/go-web-app-example/web"
+import "time"
+
+templ Index(title string, cfg any) {
+	@ui.Header()
+	@ui.Content() {
+		<div class="flex flex-col gap-2 p-4">
+			<div class="border-b text-xl">{ title }</div>
+			<div class="flex gap-2">
+				<button hx-post="/" hx-swap="none" class="rounded bg-blue-500 p-2 text-white">
+					Toast
+				</button>
+			</div>
+			<div class="border-b text-xl">Config</div>
+			<div>
+				<x-json value={ lib.PrettyJSON(cfg) }></x-json>
+			</div>
+			<div class="border-b text-xl">Time zone</div>
+			<div>
+				{ web.GetMeta(ctx).TimeZone.String() }
+			</div>
+			<div class="border-b text-xl">Time</div>
+			<div>
+				{ lib.FormatTime(web.GetMeta(ctx), time.Now().UTC()) }
+			</div>
+		</div>
+	}
+	@ui.Footer()
+}
